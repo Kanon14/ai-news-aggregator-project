@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "beautifulsoup4>=4.14.3",
+    "docling>=2.71.0",
     "feedparser>=6.0.12",
     "openai>=2.16.0",
     "psycopg2-binary>=2.9.11",
