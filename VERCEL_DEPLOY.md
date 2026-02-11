@@ -46,18 +46,27 @@ Create the following (names are suggestions; feel free to adjust):
 
 - `api/run.py` (Serverless Function entry)
   ```python
-  # Minimal Vercel Python handler that runs the daily pipeline
+  from http.server import BaseHTTPRequestHandler
+  from urllib.parse import urlparse, parse_qs
+  import json
   from app.daily_runner import run_daily_pipeline
-  
-  def handler(request):
-      try:
-          hours = int(request.args.get("hours", 24))
-          top_n = int(request.args.get("top_n", 10))
-      except Exception:
-          hours, top_n = 24, 10
-      result = run_daily_pipeline(hours=hours, top_n=top_n)
-      status = 200 if result.get("success") else 500
-      return { "status": status, "body": result }
+
+  class handler(BaseHTTPRequestHandler):
+      def do_GET(self):
+          try:
+              qs = parse_qs(urlparse(self.path).query)
+              hours = int(qs.get("hours", ["24"]) [0])
+              top_n = int(qs.get("top_n", ["10"]) [0])
+          except Exception:
+              hours, top_n = 24, 10
+          result = run_daily_pipeline(hours=hours, top_n=top_n)
+          status = 200 if result.get("success") else 500
+          body = json.dumps(result, default=str).encode("utf-8")
+          self.send_response(status)
+          self.send_header("Content-Type", "application/json")
+          self.send_header("Content-Length", str(len(body)))
+          self.end_headers()
+          self.wfile.write(body)
   ```
   Tips:
   - Keep the function idempotent and short; the platform enforces execution time limits.
@@ -133,4 +142,4 @@ Set each variable for the `Production` environment (and `Preview`/`Development` 
 
 ---
 
-If you want, I can scaffold `vercel.json` and `api/run.py`, generate `requirements.txt`, and wire up a one-time migration endpoint next.
+Scaffolded files: `vercel.json`, `api/run.py`, `api/migrate.py`, and `requirements.txt`. You can import into Vercel now; run `api/migrate.py` once (open its URL) to create tables, then remove or protect it.
