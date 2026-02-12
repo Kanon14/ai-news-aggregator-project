@@ -24,15 +24,14 @@ class ChannelVideo(BaseModel):
 class YouTubeScraper:
     def __init__(self):
         proxy_config = None
-        proxy_username = os.getenv("PROXY_USERNAME")
-        proxy_password = os.getenv("PROXY_PASSWORD")
-        
+        proxy_username = os.getenv("WEBSHARE_USERNAME")
+        proxy_password = os.getenv("WEBSHARE_PASSWORD")
+
         if proxy_username and proxy_password:
             proxy_config = WebshareProxyConfig(
-                proxy_username=proxy_username,
-                proxy_password=proxy_password
+                proxy_username=proxy_username, proxy_password=proxy_password
             )
-        
+
         self.transcript_api = YouTubeTranscriptApi(proxy_config=proxy_config)
 
     def _get_rss_url(self, channel_id: str) -> str:
@@ -61,24 +60,26 @@ class YouTubeScraper:
         feed = feedparser.parse(self._get_rss_url(channel_id))
         if not feed.entries:
             return []
-        
+
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours)
         videos = []
-        
+
         for entry in feed.entries:
             if "/shorts/" in entry.link:
                 continue
             published_time = datetime(*entry.published_parsed[:6], tzinfo=timezone.utc)
             if published_time >= cutoff_time:
                 video_id = self._extract_video_id(entry.link)
-                videos.append(ChannelVideo(
-                    title=entry.title,
-                    url=entry.link,
-                    video_id=video_id,
-                    published_at=published_time,
-                    description=entry.get("summary", "")
-                ))
-        
+                videos.append(
+                    ChannelVideo(
+                        title=entry.title,
+                        url=entry.link,
+                        video_id=video_id,
+                        published_at=published_time,
+                        description=entry.get("summary", ""),
+                    )
+                )
+
         return videos
 
     def scrape_channel(self, channel_id: str, hours: int = 150) -> list[ChannelVideo]:
@@ -86,14 +87,18 @@ class YouTubeScraper:
         result = []
         for video in videos:
             transcript = self.get_transcript(video.video_id)
-            result.append(video.model_copy(update={"transcript": transcript.text if transcript else None}))
+            result.append(
+                video.model_copy(
+                    update={"transcript": transcript.text if transcript else None}
+                )
+            )
         return result
-    
-    
-    
+
+
 if __name__ == "__main__":
     scraper = YouTubeScraper()
     transcript: Transcript = scraper.get_transcript("jqd6_bbjhS8")
     print(transcript.text)
-    channel_videos: List[ChannelVideo] = scraper.scrape_channel("UCn8ujwUInbJkBhffxqAPBVQ", hours=200)
-    
+    channel_videos: List[ChannelVideo] = scraper.scrape_channel(
+        "UCn8ujwUInbJkBhffxqAPBVQ", hours=200
+    )
