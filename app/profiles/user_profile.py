@@ -1,26 +1,23 @@
 USER_PROFILE = {
-    "name": "Kanon",
-    "title": "AI Engineer & Researcher",
-    "background": "Experienced AI engineer with deep interest in practical AI applications, research breakthroughs, and production-ready systems",
-    "interests": [
-        "Large Language Models (LLMs) and their applications",
-        "Retrieval-Augmented Generation (RAG) systems",
-        "AI agent architectures and frameworks",
-        "Multimodal AI and vision-language models",
-        "AI safety and alignment research",
-        "Production AI systems and MLOps",
-        "Real-world AI applications and case studies",
-        "Technical tutorials and implementation guides",
-        "Research papers with practical implications",
-        "AI infrastructure and scaling challenges"
-    ],
-    "preferences": {
-        "prefer_practical": True,
-        "prefer_technical_depth": True,
-        "prefer_research_breakthroughs": True,
-        "prefer_production_focus": True,
-        "avoid_marketing_hype": True
-    },
-    "expertise_level": "Junior"
+  "name": "Kanon",
+  "title": "Junior AI Engineer",
+  "background": "Junior AI engineer focused on building practical, production-ready AI systems, with a strong interest in applied research and real-world deployment challenges.",
+  "interests": [
+    "Large Language Models (LLMs) and applied use cases",
+    "Retrieval-Augmented Generation (RAG) systems",
+    "AI agent architectures and orchestration frameworks",
+    "Multimodal AI and vision-language models",
+    "Production AI systems and MLOps fundamentals",
+    "Research papers with practical implementation value",
+    "System design for scalable AI applications",
+    "End-to-end AI pipelines from prototype to deployment"
+  ],
+  "preferences": {
+    "prefer_practical": True,
+    "prefer_technical_depth": True,
+    "prefer_research_breakthroughs": True,
+    "prefer_production_focus": True,
+    "avoid_marketing_hype": True
+  },
+  "expertise_level": "Junior"
 }
-
