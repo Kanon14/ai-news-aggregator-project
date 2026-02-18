@@ -1,11 +1,7 @@
 import logging
-import sys
-from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
-
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from app.agent.curator_agent import CuratorAgent
 from app.profiles.user_profile import USER_PROFILE
@@ -66,7 +62,7 @@ def curate_digests(hours: int = 24) -> dict:
 
 
 if __name__ == "__main__":
-    result = curate_digests(hours=72)
+    result = curate_digests(hours=24)
     print("\n=== Curation Results ===")
     print(f"Total digests: {result['total']}")
     print(f"Ranked: {result['ranked']}")
