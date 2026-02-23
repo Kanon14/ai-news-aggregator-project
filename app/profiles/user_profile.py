@@ -9,8 +9,6 @@ USER_PROFILE = {
     "Multimodal AI and vision-language models",
     "Production AI systems and MLOps fundamentals",
     "Research papers with practical implementation value",
-    "System design for scalable AI applications",
-    "End-to-end AI pipelines from prototype to deployment"
   ],
   "preferences": {
     "prefer_practical": True,
