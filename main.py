@@ -8,7 +8,7 @@ def main(hours: int = 24, top_n: int = 10):
 if __name__ == "__main__":
     import sys
     
-    hours = 24
+    hours = 72
     top_n = 10
     
     if len(sys.argv) > 1:
